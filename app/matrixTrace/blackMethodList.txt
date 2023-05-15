@@ -1,0 +1,8 @@
+[package]
+-keeppackage facebook/
+-keeppackage com/squareup/
+-keeppackage com/android/tools/
+-keeppackage com/didiglobal/
+-keeppackage androidx/
+-keeppackage com/google/android/
+-keeppackage kotlinx/

@@ -1,0 +1,53 @@
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            url(uri(rootDir.getAbsolutePath() + "/maven"))
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven {
+            url("https://repo1.maven.org/maven2/")
+        }
+        maven {
+            url(uri(rootDir.getAbsolutePath() + "/maven"))
+        }
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Template"
+include ':app'
+
+include ':arch:DataLayer:api'
+include ':arch:DataLayer:data'
+include ':arch:DataLayer:model'
+include ':arch:DataLayer:datastore'
+include ':arch:DataLayer:database'
+include ':arch:DataLayer:fake'
+
+include ':arch:NetworkLayer:api'
+include ':arch:NetworkLayer:retrofit'
+include ':arch:NetworkLayer:model'
+include ':arch:NetworkLayer:fake'
+
+include ':feature:foryou'
+include ':feature:topic'
+include ':feature:plant'
+
+include ':test:network'
+include ':test:data'
+include ':test:topic'
+include ':test:common'
+
+include ':core:monitor'
+include ':core:common'
+include ':benchmark'
+
+//include ':LocalAAR:profilo'

@@ -1,0 +1,1 @@
+java -jar ./maven/matrix-apk-canary-2.1.0.jar --config MatrixApkCheckConfig.json

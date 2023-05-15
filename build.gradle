@@ -1,0 +1,63 @@
+buildscript {
+    ext.booster_version = '4.15.0'
+    ext.matrix_plugin_version = '2.1.1-SNAPSHOT'
+    ext.debug = gradle.startParameter.taskNames.any {
+        it.contains('debug') || it.contains('Debug')
+    }
+    configurations.all {
+        resolutionStrategy {
+            force("com.didiglobal.booster:booster-aapt2:4.15.1-SNAPSHOT")
+            force("com.tencent.matrix:matrix-gradle-plugin:2.1.1-SNAPSHOT")
+        }
+    }
+    dependencies {
+        classpath("com.didiglobal.booster:booster-gradle-plugin:$booster_version")
+        //多线程优化
+        classpath("com.didiglobal.booster:booster-transform-thread:$booster_version")
+        //系统崩溃兜底
+        classpath("com.didiglobal.booster:booster-transform-activity-thread:$booster_version")
+        //SharedPreferences 优化
+        classpath("com.didiglobal.booster:booster-transform-shared-preferences:$booster_version")
+        //WebView 预加载
+//        classpath("com.didiglobal.booster:booster-transform-webview:$booster_version")
+
+        //采用 cwebp 对资源进行压缩
+        // Using Java lambdas is not supported as task inputs.
+        classpath("com.didiglobal.booster:booster-task-compression-cwebp:$booster_version")
+        //采用 pngquant 对资源进行压缩
+        classpath("com.didiglobal.booster:booster-task-compression-pngquant:$booster_version")
+        classpath("io.johnsonlee.booster:booster-pngquant-provider:2.4.0")
+        //去冗余资源
+        // Using Java lambdas is not supported as task inputs.
+        classpath("com.didiglobal.booster:booster-task-resource-deredundancy:$booster_version")
+
+        //资源索引内联
+        classpath("com.didiglobal.booster:booster-transform-r-inline:$booster_version")
+        //DataBinding BR索引内联
+        classpath("com.didiglobal.booster:booster-transform-br-inline:$booster_version")
+
+//        if (debug) {
+//            classpath("com.didiglobal.booster:booster-task-analyser:$booster_version")
+//        }
+        classpath ("com.tencent.matrix:matrix-gradle-plugin:$matrix_plugin_version")
+    }
+}
+
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.booster) apply false
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            force("com.didiglobal.booster:booster-aapt2:4.15.1-SNAPSHOT")
+            force("com.tencent.matrix:matrix-gradle-plugin:2.1.1-SNAPSHOT")
+        }
+    }
+}
