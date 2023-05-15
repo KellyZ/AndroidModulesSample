@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Template</string>
+    <string name="username_placeholder">请输入用户名</string>
+    <string name="password_placeholder">请输入密码</string>
+    <string name="username_label">用户名</string>
+    <string name="password_label">密码</string>
+    <string name="button_login">登录</string>
+    <string name="search_placeholder">搜索</string>
+
+    <string name="bottom_navigation_home">HOME</string>
+    <string name="bottom_navigation_profile">Topics</string>
+    <string name="bottom_navigation_plant">Plants</string>
+</resources>
