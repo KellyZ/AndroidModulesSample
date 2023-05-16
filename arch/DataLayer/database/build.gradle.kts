@@ -1,6 +1,5 @@
 plugins {
     id("module.plugin.android.library")
-    id("module.plugin.android.jetpack")
     id("module.plugin.android.database")
     id("module.plugin.android.hilt")
 }

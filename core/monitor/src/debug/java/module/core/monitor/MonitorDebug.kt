@@ -9,7 +9,7 @@ class MonitorDebug @Inject constructor():IMonitor {
     lateinit var leakcanaryDebug: LeakcanaryDebug
 
     override fun initLeakCanary() {
-        leakcanaryDebug.init()
+        //leakcanaryDebug.init()
     }
 
     override fun initMatrix(application: Application) {

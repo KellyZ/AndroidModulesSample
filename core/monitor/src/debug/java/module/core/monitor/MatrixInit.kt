@@ -2,7 +2,6 @@ package module.core.monitor
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import com.tencent.matrix.Matrix
@@ -14,14 +13,10 @@ import com.tencent.matrix.lifecycle.LifecycleThreadConfig
 import com.tencent.matrix.lifecycle.MatrixLifecycleConfig
 import com.tencent.matrix.lifecycle.MatrixLifecycleLogger
 import com.tencent.matrix.lifecycle.supervisor.SupervisorConfig
-import com.tencent.matrix.memory.canary.MemoryCanaryPlugin
-import com.tencent.matrix.memory.canary.trim.TrimCallback
-import com.tencent.matrix.memory.canary.trim.TrimMemoryNotifier
 import com.tencent.matrix.resource.ResourcePlugin
 import com.tencent.matrix.resource.config.ResourceConfig
 import com.tencent.matrix.trace.TracePlugin
 import com.tencent.matrix.trace.config.TraceConfig
-import com.tencent.matrix.util.MatrixLog
 import com.tencent.sqlitelint.SQLiteLint
 import com.tencent.sqlitelint.SQLiteLintPlugin
 import com.tencent.sqlitelint.config.SQLiteLintConfig
@@ -39,43 +34,35 @@ object MatrixInit {
         // Reporter. Matrix will callback this listener when found issue then emitting it.
         builder.pluginListener(TestPluginListener(application))
 
-//        val memoryCanaryPlugin = MemoryCanaryPlugin(MemoryCanaryBoot.configure())
-//        builder.plugin(memoryCanaryPlugin)
+        //val memoryCanaryPlugin = MemoryCanaryPlugin(MemoryCanaryBoot.configure())
+        //builder.plugin(memoryCanaryPlugin)
 
-        // Configure trace canary.
+        // Configure trace canary. Trace Canary: 监控ANR、界面流畅性、启动耗时、页面切换耗时、慢函数及卡顿等问题
         val tracePlugin: TracePlugin = configureTracePlugin(application, dynamicConfig)
         builder.plugin(tracePlugin)
 
-        // Configure resource canary.
-//        val resourcePlugin: ResourcePlugin = configureResourcePlugin(application, dynamicConfig)
-//        builder.plugin(resourcePlugin)
+        // Configure resource canary. Resource Canary: 基于 WeakReference 的特性和 Square Haha 库开发的 Activity 泄漏和 Bitmap 重复创建检测工具
+        val resourcePlugin: ResourcePlugin = configureResourcePlugin(application, dynamicConfig)
+        builder.plugin(resourcePlugin)
 
-        // Configure io canary.
-//        val ioCanaryPlugin: IOCanaryPlugin = configureIOCanaryPlugin(dynamicConfig)
-//        builder.plugin(ioCanaryPlugin)
+        // Configure io canary. IO Canary: 检测文件 IO 问题，包括：文件 IO 监控和 Closeable Leak 监控
+        val ioCanaryPlugin: IOCanaryPlugin = configureIOCanaryPlugin(dynamicConfig)
+        builder.plugin(ioCanaryPlugin)
 
-        // Configure SQLite lint plugin.
-//        val sqLiteLintPlugin: SQLiteLintPlugin = configureSQLiteLintPlugin()
-//        builder.plugin(sqLiteLintPlugin)
+        // Configure SQLite lint plugin. SQLite Lint: 按官方最佳实践自动化检测 SQLite 语句的使用质量
+        //val sqLiteLintPlugin: SQLiteLintPlugin = configureSQLiteLintPlugin()
+        //builder.plugin(sqLiteLintPlugin)
 
-        // Configure battery canary.
-//        val batteryMonitorPlugin: BatteryMonitorPlugin = configureBatteryCanary(application)
-//        builder.plugin(batteryMonitorPlugin)
+        // Configure battery canary. Battery Canary: 监控 App 活跃线程（待机状态 & 前台 Loop 监控）、
+        // ASM 调用 (WakeLock/Alarm/Gps/Wifi/Bluetooth 等传感器)、 后台流量 (Wifi/移动网络)等 Battery Historian 统计 App 耗电的数据
+        //val batteryMonitorPlugin: BatteryMonitorPlugin = configureBatteryCanary(application)
+        //builder.plugin(batteryMonitorPlugin)
 
         builder.matrixLifecycleConfig(configureMatrixLifecycle())
         Matrix.init(builder.build())
 
         Matrix.with().startAllPlugins()
         MatrixLifecycleLogger.init(application, enable = true)
-//        TrimMemoryNotifier.addProcessBackgroundTrimCallback(object : TrimCallback {
-//            override fun systemTrim(level: Int) {
-//                MatrixLog.d(TAG, "systemTrim: ")
-//            }
-//
-//            override fun backgroundTrim() {
-//                MatrixLog.d(TAG, "backgroundTrim: ")
-//            }
-//        })
 
     }
 
@@ -104,7 +91,7 @@ object MatrixInit {
             .enableSignalAnrTrace(signalAnrTraceEnable) // Introduced in Matrix 2.0
             .anrTracePath(anrTraceFile.absolutePath)
             .printTracePath(printTraceFile.absolutePath)
-            .splashActivities("sample.tencent.matrix.SplashActivity;")
+            .splashActivities("")
             .isDebug(false)
             .isDevEnv(false)
             .build()
@@ -115,9 +102,7 @@ object MatrixInit {
     }
 
     private fun configureResourcePlugin(application: Application,dynamicConfig: DynamicConfigImplDemo): ResourcePlugin {
-        val intent = Intent()
         val mode = ResourceConfig.DumpMode.MANUAL_DUMP
-        intent.setClassName(application.packageName, "com.tencent.mm.ui.matrix.ManualDumpActivity")
         val resourceConfig = ResourceConfig.Builder()
             .dynamicConfig(dynamicConfig)
             .setAutoDumpHprofMode(mode)

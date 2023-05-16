@@ -8,6 +8,7 @@ buildscript {
         resolutionStrategy {
             force("com.didiglobal.booster:booster-aapt2:4.15.1-SNAPSHOT")
             force("com.tencent.matrix:matrix-gradle-plugin:2.1.1-SNAPSHOT")
+            force("com.tencent.matrix:matrix-trace-canary:2.1.1-SNAPSHOT")
         }
     }
     dependencies {
@@ -16,10 +17,15 @@ buildscript {
         classpath("com.didiglobal.booster:booster-transform-thread:$booster_version")
         //系统崩溃兜底
         classpath("com.didiglobal.booster:booster-transform-activity-thread:$booster_version")
+        //系统崩溃兜底，和其他hook ActivityThread.H的冲突
+        if (!debug) {
+            classpath("com.didiglobal.booster:booster-transform-activity-thread:$booster_version")
+        }
         //SharedPreferences 优化
         classpath("com.didiglobal.booster:booster-transform-shared-preferences:$booster_version")
         //WebView 预加载
 //        classpath("com.didiglobal.booster:booster-transform-webview:$booster_version")
+        //classpath("com.didiglobal.booster:booster-transform-webview:$booster_version")
 
         //采用 cwebp 对资源进行压缩
         // Using Java lambdas is not supported as task inputs.
@@ -58,6 +64,7 @@ allprojects {
         resolutionStrategy {
             force("com.didiglobal.booster:booster-aapt2:4.15.1-SNAPSHOT")
             force("com.tencent.matrix:matrix-gradle-plugin:2.1.1-SNAPSHOT")
+            force("com.tencent.matrix:matrix-trace-canary:2.1.1-SNAPSHOT")
         }
     }
 }
