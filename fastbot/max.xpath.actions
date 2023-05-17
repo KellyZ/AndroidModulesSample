@@ -1,0 +1,75 @@
+[
+{
+    "prob":1,
+    "activity":"com.panda.template.ComposeLayoutStu",
+    "times":1,
+    "actions": [
+        {
+            "xpath":"//*[@text='Plants']",
+            "action":"CLICK",
+            "throttle":2000
+        },
+        {
+            "xpath":"//*[@text='Apple']",
+            "action":"CLICK",
+            "throttle":2000
+        }
+    ]
+},
+{
+    "prob":1,
+    "activity":"xxx.MainActivity",
+    "times":1,
+    "actions": [
+        {
+            "xpath":"//*[@resource-id='xxx:id/iv_add']",
+            "action":"CLICK",
+            "throttle":2000
+        },
+        {
+            "xpath":"//*[@text='健康']",
+            "action":"CLICK",
+            "throttle":2000
+        },
+       {
+           "xpath":"//*[@text='运动']",
+           "action":"CLICK",
+           "throttle":2000
+       },
+        {
+            "xpath":"//*[@text='商城']",
+            "action":"CLICK",
+            "throttle":2000
+        },
+       {
+           "xpath":"//*[@text='我的']",
+           "action":"CLICK",
+           "throttle":2000
+       }
+    ]
+},
+{
+    "prob":1,
+    "activity":"xxx.LoginActivity",
+    "times":1,
+    "actions": [
+        {
+            "xpath":"//*[@text='同意并使用']",
+            "action":"CLICK",
+            "throttle":2000
+        }
+    ]
+},
+{
+    "prob":1,
+    "activity":"xxx.UserCenterContainerActivity",
+    "times":1,
+    "actions": [
+         {
+             "xpath":"//*[@text='登录当前系统帐号']",
+             "action":"CLICK",
+             "throttle":2000
+         }
+    ]
+}
+]

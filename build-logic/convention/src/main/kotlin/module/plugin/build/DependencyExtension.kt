@@ -78,7 +78,7 @@ fun DependencyHandlerScope.commonUtilProject(libs: VersionCatalog) {
 }
 
 fun DependencyHandlerScope.monitorProject(libs: VersionCatalog) {
-    "debugImplementation"(libs.findBundle("leakcanary-bundle").get())
+    "debugCompileOnly"(libs.findBundle("leakcanary-bundle").get())
     "debugCompileOnly"(libs.findLibrary("metrics-performance").get())
     "releaseImplementation"(libs.findLibrary("leakcanary-android-release").get())
     "releaseImplementation"(libs.findLibrary("leakcanary-android-release-watcher").get())
